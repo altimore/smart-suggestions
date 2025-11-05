@@ -2,11 +2,9 @@ import { NuxtAuthHandler } from '#auth'
 import GoogleProvider from 'next-auth/providers/google'
 import GitHubProvider from 'next-auth/providers/github'
 import AppleProvider from 'next-auth/providers/apple'
-import MicrosoftEntraIDProvider from 'next-auth/providers/microsoft-entra-id'
+import AzureADProvider from 'next-auth/providers/azure-ad'
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import prisma from '~/server/utils/prisma'
 
 export default NuxtAuthHandler({
   secret: useRuntimeConfig().authSecret,
@@ -28,7 +26,7 @@ export default NuxtAuthHandler({
       clientSecret: useRuntimeConfig().appleClientSecret,
     }),
     // @ts-expect-error
-    MicrosoftEntraIDProvider.default({
+    AzureADProvider.default({
       clientId: useRuntimeConfig().microsoftClientId,
       clientSecret: useRuntimeConfig().microsoftClientSecret,
       tenantId: 'common', // Allows personal Microsoft accounts
