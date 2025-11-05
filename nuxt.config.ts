@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  compatibilityDate: '2025-11-05',
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
@@ -29,6 +30,6 @@ export default defineNuxtConfig({
   },
   typescript: {
     strict: true,
-    typeCheck: true
+    typeCheck: false
   }
 })

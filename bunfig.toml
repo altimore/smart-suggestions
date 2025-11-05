@@ -9,7 +9,3 @@ exact = true
 [install.cache]
 # Cache dependencies for faster installs
 dir = "~/.bun/install/cache"
-
-[run]
-# Shell to use for running scripts
-shell = "/bin/bash"
