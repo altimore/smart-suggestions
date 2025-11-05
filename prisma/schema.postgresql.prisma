@@ -1,9 +1,15 @@
+// This is the PostgreSQL version of the schema
+// To use PostgreSQL instead of SQLite:
+// 1. Rename this file to schema.prisma (backup the SQLite version first)
+// 2. Update your .env DATABASE_URL to use PostgreSQL connection string
+// 3. Run: bun run prisma:generate && bun run prisma:migrate
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -48,12 +54,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -80,17 +86,17 @@ model VerificationToken {
 model Suggestion {
   id          String           @id @default(cuid())
   title       String
-  description String
+  description String           @db.Text
   type        SuggestionType
   status      SuggestionStatus @default(PENDING)
 
-  // Media attachments (stored as JSON strings in SQLite)
-  images      String           @default("[]")
-  videos      String           @default("[]")
-  links       String           @default("[]")
+  // Media attachments
+  images      String[]         @default([])
+  videos      String[]         @default([])
+  links       String[]         @default([])
 
   // AI-generated summary of comments
-  commentsSummary String?
+  commentsSummary String?       @db.Text
   lastSummaryAt   DateTime?
 
   userId      String
@@ -101,6 +107,10 @@ model Suggestion {
 
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
 }
 
 model Vote {
@@ -115,11 +125,12 @@ model Vote {
   createdAt    DateTime   @default(now())
 
   @@unique([userId, suggestionId])
+  @@index([suggestionId])
 }
 
 model Comment {
   id           String     @id @default(cuid())
-  content      String
+  content      String     @db.Text
   userId       String
   suggestionId String
   parentId     String?    // For nested replies
@@ -131,4 +142,7 @@ model Comment {
 
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+
+  @@index([suggestionId])
+  @@index([parentId])
 }

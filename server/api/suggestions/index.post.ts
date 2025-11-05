@@ -1,5 +1,6 @@
 import { getServerSession } from '#auth'
 import prisma from '~/server/utils/prisma'
+import { transformSuggestion, stringifyArrayField } from '~/server/utils/db-helpers'
 import { z } from 'zod'
 
 const createSuggestionSchema = z.object({
@@ -53,9 +54,9 @@ export default defineEventHandler(async (event) => {
       title: data.title,
       description: data.description,
       type: data.type,
-      images: data.images || [],
-      videos: data.videos || [],
-      links: data.links || [],
+      images: stringifyArrayField(data.images),
+      videos: stringifyArrayField(data.videos),
+      links: stringifyArrayField(data.links),
       userId: user.id,
     },
     include: {
@@ -69,5 +70,5 @@ export default defineEventHandler(async (event) => {
     },
   })
 
-  return suggestion
+  return transformSuggestion(suggestion)
 })

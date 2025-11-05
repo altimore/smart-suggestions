@@ -1,5 +1,6 @@
 import { getServerSession } from '#auth'
 import prisma from '~/server/utils/prisma'
+import { transformSuggestion } from '~/server/utils/db-helpers'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -14,8 +15,8 @@ export default defineEventHandler(async (event) => {
 
   if (search) {
     where.OR = [
-      { title: { contains: search as string, mode: 'insensitive' } },
-      { description: { contains: search as string, mode: 'insensitive' } },
+      { title: { contains: search as string } },
+      { description: { contains: search as string } },
     ]
   }
 
@@ -67,7 +68,7 @@ export default defineEventHandler(async (event) => {
   const suggestionsWithScores = suggestions.map((s) => {
     const voteScore = s.votes.reduce((sum, v) => sum + v.value, 0)
     return {
-      ...s,
+      ...transformSuggestion(s),
       voteScore,
       votes: undefined, // Remove full votes array from response
     }

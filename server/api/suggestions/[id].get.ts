@@ -1,5 +1,6 @@
 import { getServerSession } from '#auth'
 import prisma from '~/server/utils/prisma'
+import { transformSuggestion } from '~/server/utils/db-helpers'
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
@@ -85,7 +86,7 @@ export default defineEventHandler(async (event) => {
   }
 
   return {
-    ...suggestion,
+    ...transformSuggestion(suggestion),
     voteScore,
     userVote: userVote?.value || null,
     votes: undefined, // Remove full votes array
