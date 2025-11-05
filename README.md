@@ -16,6 +16,7 @@ A modern, community-driven suggestion platform built with Nuxt 4, where users ca
 
 ## 🛠️ Tech Stack
 
+- **Runtime**: Bun (fast all-in-one JavaScript runtime)
 - **Framework**: Nuxt 4
 - **UI**: TailwindCSS with custom components
 - **Database**: PostgreSQL with Prisma ORM
@@ -25,7 +26,7 @@ A modern, community-driven suggestion platform built with Nuxt 4, where users ca
 
 ## 📋 Prerequisites
 
-- Node.js 18+ and npm
+- [Bun](https://bun.sh) 1.0+ (install with: `curl -fsSL https://bun.sh/install | bash`)
 - PostgreSQL database
 - OAuth credentials (Google, Apple, GitHub, Microsoft)
 - OpenAI API key (for AI summaries)
@@ -37,7 +38,7 @@ A modern, community-driven suggestion platform built with Nuxt 4, where users ca
 ```bash
 git clone <repository-url>
 cd smart-suggestions
-npm install
+bun install
 ```
 
 ### 2. Environment Configuration
@@ -82,19 +83,19 @@ OPENAI_API_KEY="your-openai-api-key"
 
 ```bash
 # Generate Prisma Client
-npm run prisma:generate
+bun run prisma:generate
 
 # Run migrations
-npm run prisma:migrate
+bun run prisma:migrate
 
-# (Optional) Seed database
-npx prisma db seed
+# (Optional) Open Prisma Studio
+bun run prisma:studio
 ```
 
 ### 4. Run Development Server
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000)
@@ -190,12 +191,13 @@ smart-suggestions/
 ## 🔧 Scripts
 
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run generate     # Generate static site
-npm run prisma:generate  # Generate Prisma client
-npm run prisma:migrate   # Run database migrations
+bun run dev              # Start development server
+bun run build            # Build for production
+bun run preview          # Preview production build
+bun run generate         # Generate static site
+bun run prisma:generate  # Generate Prisma client
+bun run prisma:migrate   # Run database migrations
+bun run prisma:studio    # Open Prisma Studio GUI
 ```
 
 ## 🎯 Use Cases
@@ -229,21 +231,23 @@ Ideal for e-commerce and product teams:
 ### Build for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
-### Deploy to Vercel/Netlify
+### Deploy to Vercel/Netlify/Railway
 
 The app is ready for deployment to platforms like:
-- Vercel
-- Netlify
-- Railway
-- Render
+- **Vercel** (recommended for Nuxt)
+- **Netlify**
+- **Railway** (great for PostgreSQL)
+- **Render**
+- **Fly.io** (supports Bun natively)
 
 Make sure to:
 1. Set all environment variables
-2. Configure database connection
+2. Configure database connection (use connection pooling for production)
 3. Set up OAuth redirect URIs for production domain
+4. Install Bun in your deployment environment (most platforms support it)
 
 ## 🤝 Contributing
 
@@ -255,7 +259,15 @@ MIT License - feel free to use this project for your own purposes.
 
 ## 🎉 Credits
 
-Built with love using Nuxt 4, TailwindCSS, and modern web technologies.
+Built with love using Bun, Nuxt 4, TailwindCSS, and modern web technologies.
+
+## 🚄 Why Bun?
+
+Bun is significantly faster than npm/yarn/pnpm:
+- ⚡ Up to 25x faster package installation
+- 🔥 Native TypeScript support
+- 📦 Built-in bundler and test runner
+- 🎯 Drop-in replacement for Node.js
 
 ---
 

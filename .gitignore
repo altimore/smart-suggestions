@@ -1,3 +1,9 @@
+# Lockfiles
+bun.lockb
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
 # Nuxt dev/build outputs
 .output
 .data
